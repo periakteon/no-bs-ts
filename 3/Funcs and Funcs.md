@@ -1,4 +1,4 @@
-## Function Parameteres
+## Function Parameters
 
 Diyelim ki bir fonksiyon oluşturmak istiyorsunuz ve bu fonksiyonun ``callback` desteklemesini istiyorsunuz. Örneğin, bir dosyaya yazma fonksiyonu oluşturmak istediğinizi düşünelim.
 
