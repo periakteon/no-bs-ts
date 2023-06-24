@@ -55,7 +55,7 @@ export const fetchData = (url: string): Promise<string> => Promise.resolve(`Data
 
 Burada `fetchData` fonksiyonu `url` parametresine `string` alıyor ve dönüş değeri olarak `Promise<string>` döndürüyor. Yani, bu fonksiyon bize bir `Promise` döndürüyor ve bu `Promise`'in dönüş değeri `string` oluyor.
 
-## Rest Parameters
+##  Rest Parameters
 
 Bir fonksiyona `rest` parametreleri vermek için `...` kullanabiliriz.
 
