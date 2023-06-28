@@ -66,3 +66,22 @@ Aslında React ile birlikte çok sık kullandığımız `useState`'in birebir ay
 Fonksiyonun body'si bir `array`, yani dizi döndürür. Dizinin ilk elemanı bir `getter` fonksiyonudur. Bu fonksiyon, `str` adındaki `string` tipindeki `state`'i döndürür. İkinci elemanı ise bir `setter` fonksiyonudur. Bu fonksiyon, `str` adındaki `string` tipindeki `state`'e bir `string` tipinde parametre alır ve bu parametreyi `str`'e atar.
 
 Son olarak, `simpleStringState` fonksiyonu `"hello"` ile çağrılır. Bu fonksiyon, `str` adındaki `string` tipindeki `state`'e `"hello"` değerini atar ve `getter` ve `setter` fonksiyonlarını döndürür. Bu fonksiyonlar, `str1getter` ve `str1setter` adındaki değişkenlere atanır. `str1getter` fonksiyonu, `str` adındaki `string` tipindeki `state`'i döndürür. `str1setter` fonksiyonu ise `str` adındaki `string` tipindeki `state`'e bir `string` tipinde parametre alır ve bu parametreyi `str`'e atar.
+
+Not: `const [str1getter, str1setter] = simpleStringState("hello");` kısmında `array destructing` işlemi yaptığımıza dikkat edelim. Bu işlem, `simpleStringState` fonksiyonunun döndürdüğü `tuple`'ın ilk elemanını `str1getter`'a, ikinci elemanını ise `str1setter`'a atar, tıpkı aşağıdaki gibi:
+
+```ts
+
+const tuple = simpleStringState("hello");
+const str1getter = tuple[0];
+const str1setter = tuple[1];
+
+// ya da
+
+const str1getter = simpleStringState("hello")[0];
+const str1setter = simpleStringState("hello")[1];
+
+// en kısa haliyle
+
+const [str1getter, str1setter] = simpleStringState("hello");
+
+```
