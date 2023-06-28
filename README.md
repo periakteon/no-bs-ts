@@ -1028,7 +1028,7 @@ Son olarak, `add3DCoordinate` fonksiyonu `[0, 100, 0]` ve `[10, 20, 30]` diziler
 
 ## Tuples with Different Types (Farklı Tiplere Sahip Demetler)
 
-Aslında React ile uygulama geliştirirken çok sık kullandığımız bir `tuple` vardır: `useState`. `useState` aslında bir `state` ve `state setter`ı bize `return` eder. `useState` ile benzer bir işlevi yerine kendi `string` tipindeki state'imizi ve `state setter`ımızı döndüren bir `tuple` yazalım:
+Aslında React ile uygulama geliştirirken çok sık kullandığımız bir `tuple` vardır: `useState`. `useState` aslında bir `state` ve `state setter`ı bize `return` eder. `useState` ile benzer bir işlevi yerine getiren kendi `string` tipindeki `state`'imizi ve `state setter`ımızı döndüren bir `tuple` yazalım:
 
 ```ts
 
