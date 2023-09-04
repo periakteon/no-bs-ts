@@ -4,6 +4,9 @@ Jack Herrington's No BS TS Notes
 
 https://www.youtube.com/playlist?list=PLNqp92_EXZBJYFrpEzdO2EapvU0GOJ09n
 
+
+**Not:** "İçindekiler" listesi en son eklenecektir.
+
 ***
 
 # JavaScript'e Dair Sorunlar
