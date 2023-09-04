@@ -1,4 +1,4 @@
-let userName = 'Masum';
+let userName = "Masum";
 let hasLoggedIn = true;
 
 hasLoggedIn += " Gökyüz";

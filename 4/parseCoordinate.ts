@@ -66,7 +66,6 @@ const coordinate4 = parseCoordinate({
 console.log(coordinate4);
 // { x: 12, y: 21 }
 
-
 /*******************************************************************************************/
 function parseCoordinateWithString(str: string): Coordinate;
 function parseCoordinateWithString(obj: Coordinate): Coordinate;

@@ -5,18 +5,15 @@
 `parseCoordinate.ts` adında bir dosya oluşturalım. Bu dosyada koordinatın **ne olduğunu** tesis etmek için öncelikle bir `interface` tanımlayalım.
 
 ```ts
-
 interface Coordinate {
   x: number;
   y: number;
 }
-
 ```
 
 Şimdi de `parseCoordinate` adında bir fonksiyon tanımlayalım. Bu fonksiyon `Coordinate` tipinde bir `obj` alsın ve yine `Coordinate` tipinde bir `obj` döndürsün.
 
 ```ts
-
 function parseCoordinateFromObject(obj: Coordinate): Coordinate {
   return {
     ...obj,
@@ -35,13 +32,11 @@ console.log(coordinate);
 Burada `spread operatörü` kullanmamızın asıl nedeni `obj`'nin referansını kopyalamak değil, `obj`'nin içindeki değerleri kopyalamaktır. Yani, `obj`'nin referansını kopyalasaydık, `obj`'nin içindeki değerler değiştiğinde `return` edilen değer de değişecekti. Fakat biz `obj`'nin içindeki değerleri kopyaladığımız için `obj`'nin içindeki değerler değişse bile `return` edilen değer değişmeyecektir. Sonuç olarak bu kopyalama işlemi, `parseCoordinate` fonksiyonunun çağrıldığı yerde, orijinal `obj` nesnesinin referansını koruyarak **yeni** bir nesne döndürmek için yapılır. Bu sayede, orijinal `obj` nesnesi değiştirilmeden kalır ve fonksiyonun döndürdüğü nesne üzerinde istenilen değişiklikler yapılabilir. Bunu daha basit bir örnek üzerinden şöyle de anlatabiliriz:
 
 ```ts
-
 const originalObject = { a: 1, b: 2 };
 const copiedObject = { ...originalObject };
 
 console.log(copiedObject); // { a: 1, b: 2 }
 console.log(originalObject === copiedObject); // false
-
 
 const originalObject = { a: 1, b: 2 };
 const copiedObject = { ...originalObject };
@@ -55,7 +50,6 @@ Yukarıdaki örnekte, `originalArray` adlı bir dizi oluşturulur. Sonrasında `
 Bununla ilgili başka bir örnek daha verelim:
 
 ```ts
-
 function cloneArray(arr: number[]): number[] {
   return [...arr];
 }
@@ -65,25 +59,23 @@ const clonedArray = cloneArray(originalArray);
 
 originalArray[0] = 10;
 
-console.log(originalArray);  // [10, 2, 3]
-console.log(clonedArray);    // [1, 2, 3]
-
+console.log(originalArray); // [10, 2, 3]
+console.log(clonedArray); // [1, 2, 3]
 ```
 
 Bu örnekte, `cloneArray` fonksiyonu, `arr` dizisinin değerlerini spread operatörü kullanarak yeni bir dizi oluşturur. Oluşturulan bu yeni dizi, orijinal dizinin bir kopyasıdır. Sonrasında, `originalArray` dizisinin ilk elemanı değiştirilir, ancak `clonedArray` dizisi değişmez. Bu, `spread operatörü`nün kullanıldığı durumlarda orijinal verinin değişmesini önlemek için yapılan bir kopyalama işlemidir.
 
 Bu nedenle, `spread operatörü (...)` kullanılarak bir nesnenin veya dizinin içindeki değerlerin kopyalanması, orijinal verinin değişmesini önlemek ve yeni bir veri üzerinde değişiklikler yapabilmek için yaygın bir kullanımdır.
 
-***
+---
 
-Benzer bir işlemi `object` üzerinden yapmak yerine `number` üzerinden yapalım. 
+Benzer bir işlemi `object` üzerinden yapmak yerine `number` üzerinden yapalım.
 
 ## Function Overloading
 
 Aynı isme sahip fakat farklı parametreler alan fonksiyonlar tanımlayabiliriz. Bu sayede aynı fonksiyonu farklı parametrelerle kullanabiliriz. Bu duruma `Function Overloading` denir.
 
 ```ts
-
 function parseCoordinate(obj: Coordinate): Coordinate;
 function parseCoordinate(x: number, y: number): Coordinate;
 function parseCoordinate(arg1: unknown, arg2?: unknown): Coordinate {
@@ -103,7 +95,6 @@ function parseCoordinate(arg1: unknown, arg2?: unknown): Coordinate {
   }
   return coord;
 }
-
 ```
 
 Biraz karışık göründüğünün farkındayım. Ancak bu fonksiyonda yaptığımız her adımı tek tek açıklayalım.
@@ -115,8 +106,15 @@ Biraz karışık göründüğünün farkındayım. Ancak bu fonksiyonda yaptığ
 `unknown` tipi, `any` tipine benzer. Ancak `any` tipinden farklı olarak `unknown` tipi, `type-checking` işleminden geçirilmeden kullanılamaz. Yani, `unknown` tipinde bir değişken tanımladığımızda, bu değişkeni kullanmadan önce `type-checking` işleminden geçirmemiz gerekir. Bu işlemi `typeof` operatörü ile yapabiliriz. Örneğin:
 
 ```ts
-
-let value: string | number | boolean | object | symbol | (() => void) | undefined | bigint;
+let value:
+  | string
+  | number
+  | boolean
+  | object
+  | symbol
+  | (() => void)
+  | undefined
+  | bigint;
 
 // Örnek 1: String
 value = "Merhaba dünya!";
@@ -165,7 +163,6 @@ value = BigInt(10);
 if (typeof value === "bigint") {
   console.log(value.toString()); // Çıktı: "10"
 }
-
 ```
 
 Sonuç olarak TypeScript'te, `unknown` türü, belirsiz olan veya henüz bilinmeyen türleri temsil etmek için kullanılan bir türdür. `unknown` türü, JavaScript'teki `any` türünden daha güvenli bir alternatif olarak sunulmuştur. `unknown` türü, hiçbir tipe otomatik olarak dönüştürülmez veya hiçbir işlem yapılamaz. Bu türü kullanarak, tür güvenliğini sağlamak için ek kontrol ve işlemler yapmanız gerekebilir.
@@ -177,7 +174,6 @@ Sonuç olarak TypeScript'te, `unknown` türü, belirsiz olan veya henüz bilinme
 TypeScript'te `type casting` iki şekilde yapılabilir: `as` operatörü veya `< >` (_köşeli parantez_) syntax'ı.
 
 ```ts
-
 let value: unknown;
 
 // Type casting with 'as' operator
@@ -185,19 +181,17 @@ let strLength1 = (value as string).length;
 
 // Type casting with '<>' syntax
 let strLength2 = (<string>value).length;
-
 ```
 
 Yukarıdaki örnekte, `value` değişkeni `unknown` tipindedir ve `.length` özelliğine sahip olmayan bir tiptir. Ancak, `type casting` kullanarak value değişkeninin bir `string` olduğunu belirtiyoruz. Böylece, `strLength1` ve `strLength2` değişkenleri, `value` değişkeninin _string uzunluğunu_ içerecektir.
 
 `Type casting` kullanırken dikkat etmeniz gereken nokta, doğru olmayan bir tip dönüştürmesi yapmaktan kaçınmaktır. Uygun bir tip dönüştipme yapmadan önce, value değişkeninin gerçek tipini doğrulamak veya kontrol etmek için uygun kontroller yapmanız önemlidir.
 
-***
+---
 
 Şimdi kaldığımız yerden devam edebiliriz. Elimizde en son aşağıdaki gibi bir `Function Overloading` örneği vardı:
 
 ```ts
-
 function parseCoordinate(obj: Coordinate): Coordinate;
 function parseCoordinate(x: number, y: number): Coordinate;
 function parseCoordinate(arg1: unknown, arg2?: unknown): Coordinate {
@@ -233,7 +227,6 @@ const coordinate3 = parseCoordinate("52", "35");
 const coordinate4 = parseCoordinate({ x: 52 });
 console.log(coordinate3, coordinate4);
 // Çıktı: {x: 0, y: 0} {x: 52}
-
 ```
 
 Yukarıdaki örnekte, `parseCoordinate` fonksiyonu iki farklı `function signature`a sahiptir. İlk imza (_signature_), `obj` parametresi olarak bir `Coordinate` nesnesi alırken, ikinci imza `number` tipinde olmak üzere `x` ve `y` parametrelerini alır.
@@ -246,12 +239,11 @@ Fonksiyonun gövdesindeki `typeof` ifadeleri, verilen argümanların tiplerini k
 
 Bu şekilde, `parseCoordinate` fonksiyonu, gelen argümanlara bağlı olarak farklı işlemler gerçekleştirir ve uygun tip kontrolleriyle güvenli bir şekilde çalışır.
 
-***
+---
 
 Peki aynı fonksiyona bir de `string` tipinde bir parametre eklemek isteseydik ne yapardık?
 
 ```ts
-
 /*******************************************************************************************/
 
 interface Coordinate {
@@ -290,7 +282,6 @@ function parseCoordinateWithString(arg1: unknown, arg2?: unknown): Coordinate {
 const coordinate5 = parseCoordinateWithString("x:12,y:21");
 console.log(coordinate5);
 // { x: 12, y: 21 }
-
 ```
 
 Bu TypeScript kodu, `Coordinate` adında bir arabirim (_interface_) tanımlıyor ve `parseCoordinateWithString` adında bir fonksiyon içeriyor.
@@ -300,9 +291,11 @@ Bu TypeScript kodu, `Coordinate` adında bir arabirim (_interface_) tanımlıyor
 Fonksiyon, üç farklı aşırı yüklemeye (_overload_) sahiptir. Her bir aşırı yüklemesi, farklı parametre kombinasyonlarına sahiptir:
 
 1. `parseCoordinateWithString(str: string): Coordinate;`
+
    - Bu aşırı yükleme, bir dize (_string_) parametresi alır ve bu dizeden bir `Coordinate` nesnesi döndürür.
 
 2. `parseCoordinateWithString(obj: Coordinate): Coordinate;`
+
    - Bu aşırı yükleme, bir `Coordinate` nesnesi parametresi alır ve bu nesneyi doğrudan döndürür.
 
 3. `parseCoordinateWithString(x: number, y: number): Coordinate;`

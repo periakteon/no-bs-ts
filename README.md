@@ -4,24 +4,22 @@ Jack Herrington's No BS TS Notes
 
 https://www.youtube.com/playlist?list=PLNqp92_EXZBJYFrpEzdO2EapvU0GOJ09n
 
-
 **Not:** "İçindekiler" listesi en son eklenecektir.
 
-***
+---
 
 # JavaScript'e Dair Sorunlar
 
 Elimizde aşağıdaki gibi bir JavaScript kodu olduğunu düşünelim:
 
 ```js
-let userName = 'Masum';
+let userName = "Masum";
 let hasLoggedIn = true;
 
 hasLoggedIn += " Gökyüz";
 
 console.log(hasLoggedIn);
 // true Gökyüz
-
 ```
 
 Bu JavaScript kodunu Node ile çalıştırdığımızda, Node'un `hasLoggedIn` adındaki değişkenimizi `coerce` ettiğini, yani halihazırda `boolean` tipinde olan değişkenimizi `string` tipine çevirmeye `zorladığını (*coerce*)` görüyoruz. Bu durumda `true` değerimiz `string` tipine dönüştürülmüş ve `+` operatörü ile birleştirilmiş oluyor. Aksi takdirde bu çıktıyı, yani `true Gökyüz` çıktısını alamazdık. Burada istemediğimiz bir şekilde `coerce` işlemi gerçekleşmiş oldu.
@@ -36,7 +34,7 @@ error TS2365: Operator '+=' cannot be applied to types 'true' and 'string'.
 
 Sonuç olarak, JavaScript kullanarak tip güvenliği sağlamak mümkün değildir. Bu nedenle, TypeScript gibi bir dil kullanmak olası hataları önlemek açısından makul görünmektedir.
 
-***
+---
 
 # TypeScript Kurulumu
 
@@ -69,16 +67,15 @@ npx tsc --init
 Daha sonra bir TypeScript dosyası oluşturalım (ben `index.ts` olarak adlandırdım) ve az önceki JavaScript kodunu bu dosyaya kopyalayalım:
 
 index.ts:
-```ts
 
-let userName = 'Masum';
+```ts
+let userName = "Masum";
 let hasLoggedIn = true;
 
 hasLoggedIn += " Gökyüz";
 
 console.log(hasLoggedIn);
 // true Gökyüz
-
 ```
 
 Bunu yaptığımızda `hasLoggedIn` değişkeninin bağırdığını, yani kırmızıya yandığını ve bize bir hata fırlattığını görürüz:
@@ -97,35 +94,34 @@ index.ts:4:1 - error TS2322: Type 'string' is not assignable to type 'boolean'.
   ~~~~~~~~~~~
 ```
 
-***
+---
 
-# Tip Belirleme (*Type Specifying*)
+# Tip Belirleme (_Type Specifying_)
 
 Yukarıda yazmış olduğumuz `index.ts` dosyasına yakından bakalım. Kodu tekrar yazalım:
 
 ```ts
-let userName = 'Masum';
+let userName = "Masum";
 let hasLoggedIn = true;
 
 hasLoggedIn += " Gökyüz";
 ```
 
-Bu koddaki `hasLoggedIn` değişkeninin üzerine geldiğimizde şunu görürüz: `let hasLoggedIn: boolean`. Bu hint bize `hasLoggedIn` değişkeninin `boolean` tipinde olduğunu, yani sadece `true` ya da `false` alabileceğini belirtir. `userName` değişkeninin üzerine geldiğimizde de `let userName: string` ifadesini görürüz. O zaman **artık tip belirleyebiliriz**. Tip belirlemek (*type specifying*) için iki nokta `:` kullanırız. İki noktayı, yani `:` işaretini değişkene bitiştirmemiz gerekmektedir. Yani, yukarıdaki kodu şu şekilde düzeltmemiz gerekmektedir:
+Bu koddaki `hasLoggedIn` değişkeninin üzerine geldiğimizde şunu görürüz: `let hasLoggedIn: boolean`. Bu hint bize `hasLoggedIn` değişkeninin `boolean` tipinde olduğunu, yani sadece `true` ya da `false` alabileceğini belirtir. `userName` değişkeninin üzerine geldiğimizde de `let userName: string` ifadesini görürüz. O zaman **artık tip belirleyebiliriz**. Tip belirlemek (_type specifying_) için iki nokta `:` kullanırız. İki noktayı, yani `:` işaretini değişkene bitiştirmemiz gerekmektedir. Yani, yukarıdaki kodu şu şekilde düzeltmemiz gerekmektedir:
 
 ```ts
-let userName: string = 'Masum';
+let userName: string = "Masum";
 let hasLoggedIn: boolean = true;
 
 userName += " Gökyüz";
 ```
 
-Ayrıca hata almamak, yani `boolean` değeri bir `string` tipindeki ifadeyle, yani `Gökyüz` ile birleştirmemek için `hasLoggedIn += "Gökyüz";` ifadesini `userName += " Gökyüz";` olarak değiştirelim. Artık tip güvenliği (*type safety*) sağlamış olduk. Bundan böyle `hasLoggedIn` değişkenine `string` tipinde bir değer atamaya çalıştığımızda, yani `hasLoggedIn += "Gökyüz";` dediğimizde hata alacağız. Aynı şekilde `userName` değişkenine `boolean` tipinde bir değer atamaya çalıştığımızda da hata alacağız. Çünkü `userName` değişkeninin tipi `string`; `hasLoggedIn` değişkeninin tipi ise `boolean` şeklindedir.
+Ayrıca hata almamak, yani `boolean` değeri bir `string` tipindeki ifadeyle, yani `Gökyüz` ile birleştirmemek için `hasLoggedIn += "Gökyüz";` ifadesini `userName += " Gökyüz";` olarak değiştirelim. Artık tip güvenliği (_type safety_) sağlamış olduk. Bundan böyle `hasLoggedIn` değişkenine `string` tipinde bir değer atamaya çalıştığımızda, yani `hasLoggedIn += "Gökyüz";` dediğimizde hata alacağız. Aynı şekilde `userName` değişkenine `boolean` tipinde bir değer atamaya çalıştığımızda da hata alacağız. Çünkü `userName` değişkeninin tipi `string`; `hasLoggedIn` değişkeninin tipi ise `boolean` şeklindedir.
 
 Başka ne tür tipler vardır? Aslında JavaScript biçiminde yazdığımız kodların hangi tipte olduğunu VS Code bize söylemektedir (yukarıda olduğu gibi, değişkenin üzerine mouse ile geldiğimizde bize hint/ipucu vermektedir). `index.ts` dosyasını şu şekilde genişletelim:
 
 ```ts
-
-let userName = 'Masum';
+let userName = "Masum";
 let hasLoggedIn = true;
 
 userName += " Gökyüz";
@@ -134,30 +130,29 @@ console.log(hasLoggedIn);
 // true Gökyüz
 
 let myNumber = 10;
-let myDecimal = 10.10;
+let myDecimal = 10.1;
 
 let myRegex = /foo/;
 
-const names = ['Masum', 'Gökyüz'];
+const names = ["Masum", "Gökyüz"];
 
 const myNumbers = [1, 2, 3, 4, 5];
 
 const myPerson = {
-    firstName: 'Masum',
-    lastName: 'Gökyüz'
+  firstName: "Masum",
+  lastName: "Gökyüz",
 };
 
 const ids = {
-    10: 'a',
-    20: 'b'
-}
+  10: "a",
+  20: "b",
+};
 ```
 
 Burada yazdığımız değişkenlerin üzerine geldiğimizde VS Code bize bu değişkenlerin hangi tipte olduğunu söyleyecektir. Buna göre kodu düzenleyelim:
 
 ```ts
-
-let userName = 'Masum';
+let userName = "Masum";
 let hasLoggedIn = true;
 
 userName += " Gökyüz";
@@ -168,7 +163,7 @@ console.log(hasLoggedIn);
 /*****************************************/
 
 let myNumber: number = 10;
-let myDecimal: number = 10.10;
+let myDecimal: number = 10.1;
 
 /*****************************************/
 
@@ -176,8 +171,8 @@ let myRegex: RegExp = /foo/;
 
 /*****************************************/
 
-const names: string[] = ['Masum', 'Gökyüz'];
-const names2: Array<string> = ['Masum', 'Gökyüz'];
+const names: string[] = ["Masum", "Gökyüz"];
+const names2: Array<string> = ["Masum", "Gökyüz"];
 
 /*****************************************/
 
@@ -192,8 +187,8 @@ interface Person {
 }
 
 const myPerson: Person = {
-    firstName: 'Masum',
-    lastName: 'Gökyüz'
+  firstName: "Masum",
+  lastName: "Gökyüz",
 };
 
 // "myPerson." yazdığımızda artık firstName ve lastName özelliklerini görebiliriz.
@@ -202,36 +197,39 @@ const myPerson: Person = {
 
 // Utility Type: "Record<typeX,typeY>"
 const ids: Record<number, string> = {
-    10: 'a',
-    20: 'b'
-}
+  10: "a",
+  20: "b",
+};
 
-ids[30] = 'c';
+ids[30] = "c";
 
 // Record utility sayesinde aşağıdaki gibi bir if ifadesinde tip hatası almayız.
 if (ids[30] === "D") {
-    // ...
+  // ...
 }
 
 /*****************************************/
 
 for (let i: number = 0; i < 10; i++) {
-  console.log(i); 
+  console.log(i);
 }
 
 /*****************************************/
 
 [1, 2, 3, 4, 5].forEach((n: number) => console.log(n));
 
-[6,7,8,9,10].map((n:number) => console.log(n));
+[6, 7, 8, 9, 10].map((n: number) => console.log(n));
 
-const out: number[] = [6,7,8,9,10].map((n:number) => n*10);
-const out2: Array<number> = [6,7,8,9,10].map((n:number) => n*10);
+const out: number[] = [6, 7, 8, 9, 10].map((n: number) => n * 10);
+const out2: Array<number> = [6, 7, 8, 9, 10].map((n: number) => n * 10);
 
 // template string kullandığımız için string array olur.
-const outButAsString: string[] = [6,7,8,9,10].map((n:number) => `${n*10}`);
-const outButAsString2: Array<string> = [6,7,8,9,10].map((n:number) => `${n*10}`);
-
+const outButAsString: string[] = [6, 7, 8, 9, 10].map(
+  (n: number) => `${n * 10}`,
+);
+const outButAsString2: Array<string> = [6, 7, 8, 9, 10].map(
+  (n: number) => `${n * 10}`,
+);
 ```
 
 Bu kodu ayrıca `transpile` edebiliriz, yani JavaScript koduna dönüştürebiliriz. Bunun için aşağıdaki komutu terminalimize yazalım:
@@ -242,11 +240,11 @@ npx tsc index.ts
 
 Bu komutu çalıştırdıktan sonra klasörümüzde yeni bir `.js` dosyası oluşacaktır.
 
-***
-***
+---
+
+---
 
 # Functions
-
 
 ## Primitive Types
 
@@ -254,7 +252,7 @@ Bir fonksiyona type vermek:
 
 ```ts
 export default function addNumbers(a: number, b: number): number {
-  return a + b
+  return a + b;
 }
 ```
 
@@ -263,9 +261,13 @@ Burada `a` ve `b` parametrelerine `number` type'ı vermiş olduk. Ayrıca fonksi
 Peki `arrow function`lar nasıl yazılır?
 
 ```ts
-export const addStrings = (str1: string, str2: string): string => `${str1} ${str2}`
+export const addStrings = (str1: string, str2: string): string =>
+  `${str1} ${str2}`;
 
-export const addStringsWithDefaultValue = (str1: string, str2: string = 'World'): string => `${str1} ${str2}`
+export const addStringsWithDefaultValue = (
+  str1: string,
+  str2: string = "World",
+): string => `${str1} ${str2}`;
 ```
 
 Burada `addStrings` fonksiyonu `str1` ve `str2` parametrelerini alıyor ve dönüş değeri olarak `string` döndürüyor. `addStringsWithDefaultValue` fonksiyonu ise `str2` parametresine `default` bir değer veriyor.
@@ -275,7 +277,8 @@ Burada `addStrings` fonksiyonu `str1` ve `str2` parametrelerini alıyor ve dön�
 Bir fonksiyonun parametrelerine birden fazla type vermek için `union` kullanabiliriz.
 
 ```ts
-export const format = (title: string, param: string | number): string => `${title} ${param}`
+export const format = (title: string, param: string | number): string =>
+  `${title} ${param}`;
 ```
 
 Burada `param` parametresine `string` veya `number` type'ı vermiş olduk. Yani, `format` fonksiyonu `title` parametresine `string` ve `param` parametresine ise `string` veya `number` type'ı alabilir. Ayrıca bu fonksiyonun dönüş type'ı da `string` olacaktır.
@@ -286,8 +289,8 @@ Peki hiçbir şey `return` etmeyen, yani `void` fonksiyonlara nasıl type veriri
 
 ```ts
 export const printFormat = (title: string, param: string | number): void => {
-  console.log(format(title, param))
-}
+  console.log(format(title, param));
+};
 ```
 
 Burada `printFormat` fonksiyonu `format` fonksiyonunu çağırıyor ve `console.log` ile ekrana yazdırıyor. Bu fonksiyonun, yani `printFormat` fonksiyonunun dönüş değeri ise `void`tir. Yani, bize hiçbir şey `return` etmez.
@@ -297,17 +300,19 @@ Burada `printFormat` fonksiyonu `format` fonksiyonunu çağırıyor ve `console.
 Bir fonksiyonun `Promise` döndürmesi için `Promise` type'ını kullanabiliriz.
 
 ```ts
-export const fetchData = (url: string): Promise<string> => Promise.resolve(`Data from ${url}`)
+export const fetchData = (url: string): Promise<string> =>
+  Promise.resolve(`Data from ${url}`);
 ```
 
 Burada `fetchData` fonksiyonu `url` parametresine `string` alıyor ve dönüş değeri olarak `Promise<string>` döndürüyor. Yani, bu fonksiyon bize bir `Promise` döndürüyor ve bu `Promise`'in dönüş değeri `string` oluyor.
 
-##  Rest Parameters
+## Rest Parameters
 
 Bir fonksiyona `rest` parametreleri vermek için `...` kullanabiliriz.
 
 ```ts
-export const introduce = (salutation: string, ...names: string[]): string => `${salutation} ${names.join(' ')}`
+export const introduce = (salutation: string, ...names: string[]): string =>
+  `${salutation} ${names.join(" ")}`;
 ```
 
 Burada `introduce` fonksiyonu `salutation` parametresine `string` alıyor ve `names` parametresi ise `...` ile `rest` parametrelerini alıyor. Bu fonksiyonun dönüş değeri ise `string` oluyor. Örneğin, `introduce('Hello', 'John', 'Doe')` şeklinde kullanabiliriz. Bu fonksiyon bize `Hello John Doe` döndürecektir. Buradaki `Hello` ifadesi `salutation` parametresine, `John` ve `Doe` ise `names` parametresine denk düşmektedir.
@@ -318,19 +323,20 @@ Bir fonksiyonun parametresine `object` vermek için aşağıdaki gibi bir şey y
 
 ```ts
 export function getName(user: { first: string; last: string }): string {
-  return `${user.first} ${user.last}`
+  return `${user.first} ${user.last}`;
 }
 ```
 
 Burada `getName` fonksiyonu bir parametre olarak `user`i alıyor ve bu `user` de esasen bir `object`tir. Dönüş değeri olarak `string` döndürüyor. Bu fonksiyonu aşağıdaki gibi kullanabiliriz:
 
 ```ts
-getName({ first: 'John', last: 'Doe' })
+getName({ first: "John", last: "Doe" });
 // John Doe
 ```
 
-***
-***
+---
+
+---
 
 ## Function Parameters
 
@@ -352,34 +358,30 @@ printToFile("Hi, there!", () => console.log("Callback"));
 Bu fonksiyonun çıktısı, yani output'u şu şekilde olacaktır:
 
 ```ts
-Hi, there!
-Callback
+Hi, there!;
+Callback;
 ```
 
-***
+---
 
 ## Function With Params
 
 Parametre olarak `number[]` (sayı dizisi) alan bir `array mutation function` oluşturalım.
 
 ```ts
-
 export function arrayMutate(
   numbers: number[],
-  mutate: (v: number) => number
+  mutate: (v: number) => number,
 ): number[] {
   return numbers.map(mutate);
 }
-
 ```
 
 Bu fonksiyon `numbers` adında bir `number[]` ve `mutate` adında bir fonksiyon alıyor. `mutate` fonksiyonu kendi içerisinde bir parametre olarak `number` değeri (**v**) alıyor ve bir `number` döndürüyor (`(v: number) => number`). `arrayMutate` fonksiyonu da sonuç olarak bize `number[]` döndürüyor. En son olarak da bu fonksiyon bize `numbers` dizisini `map` fonksiyonu ile `mutate` fonksiyonuna gönderiyor. Örnek olarak aşağıdaki gibi kullanabiliriz.
 
 ```ts
-
 console.log(arrayMutate([1, 2, 3], (v) => v * 10));
 // Output: [10, 20, 30]
-
 ```
 
 Bu örnek kullanımda aslında şunu yapmış olduk: İlk olarak `arrayMutate` fonksiyonuna sayılardan oluşan bir diziyi (**number[]**) ilk parametre (**[1, 2, 3]**) olarak verdik. İkinci parametre olarak da bir fonksiyon verdik. Bu fonksiyonun içerisinde bir parametre olarak **v** adında bir sayı aldık ve bu sayıyı 10 ile çarptık. Bu çarpım sonucunda ortaya çıkan değerleri de `numbers.map()` fonksiyonuna parametre olarak verdik. Bu fonksiyon da bize sonuç olarak bir sayı dizisi (**number[]**) döndürdü (hatırlayın, fonksiyonumuzun dönüş type'ı `number[]` şeklindeydi).
@@ -387,91 +389,93 @@ Bu örnek kullanımda aslında şunu yapmış olduk: İlk olarak `arrayMutate` f
 `arrayMutate` fonksiyonunu okumak ilk bakışta biraz zor olabilir. Bu yüzden bu fonksiyona atamak için yeni bir `type` oluşturalım ve daha sonrasında da fonksiyona atayalım.
 
 ```ts
-
 type MutationFunction = (v: number) => number;
 
 export function arrayMutateButMoreReadable(
   numbers: number[],
-  mutate: MutationFunction
+  mutate: MutationFunction,
 ): number[] {
   return numbers.map(mutate);
 }
-
 ```
 
 Bu şekilde daha okunabilir bir hale geldi.
 
-***
+---
 
 Ayrıca `arrow function` oluşturduğumuzda da bu `type`ı aşağıdaki gibi kullanabiliriz:
 
 ```ts
-
 export const myNewMutation: MutationFunction = (v) => v * 100;
 console.log(myNewMutation(3));
 // Output: 300
-
 ```
 
 `arrow function` oluştururken `type`ı parametreleri yazarken de belirtebiliriz ancak bu okunuşu zaman zaman zorlaştırabilir. Örneğin:
 
 ```ts
-
-const mutationArrowFunction = (n: number[], mutate: (v: number) => number): number[] => {
+const mutationArrowFunction = (
+  n: number[],
+  mutate: (v: number) => number,
+): number[] => {
   return n.map(mutate);
-}
+};
 
 console.log(mutationArrowFunction([1, 2, 3], (v) => v * 10));
 // Output: [10, 20, 30]
-
 ```
 
 Aynı fonksiyonu yeni bir `type` oluşturarak yazalım:
 
 ```ts
+type ArrowFunctionMutation = (
+  numbers: number[],
+  mutate: (v: number) => number,
+) => number[];
 
-type ArrowFunctionMutation = (numbers: number[], mutate: (v: number) => number) => number[];
-
-const mutationArrowFunctionButMoreReadable: ArrowFunctionMutation = (n, mutate) => {
+const mutationArrowFunctionButMoreReadable: ArrowFunctionMutation = (
+  n,
+  mutate,
+) => {
   return n.map(mutate);
-}
+};
 
 console.log(mutationArrowFunctionButMoreReadable([1, 2, 3], (v) => v * 10));
 // Output: [10, 20, 30]
-
 ```
 
 Bu şekilde daha okunabilir bir hale geldiğini söyleyebiliriz.
 
-***
+---
 
 İşleri biraz daha karmaşıklaştırıp `arrow function`ın `type`ını tanımlarken bir `object` olarak da `type` verebiliriz. Örneğin:
 
 ```ts
-
 type ArrowFunctionMutationButAsObject = {
   numbers: number[];
   mutate: (v: number) => number;
 };
 
-export const arrowFunctionMutationButObject = (data: ArrowFunctionMutationButAsObject): number[] => {
+export const arrowFunctionMutationButObject = (
+  data: ArrowFunctionMutationButAsObject,
+): number[] => {
   return data.numbers.map(data.mutate);
-}
-console.log(arrowFunctionMutationButObject({ numbers: [1, 2, 3], mutate: (v) => v * 10 }));
+};
+console.log(
+  arrowFunctionMutationButObject({ numbers: [1, 2, 3], mutate: (v) => v * 10 }),
+);
 // Output: [10, 20, 30]
-
 ```
 
 Gördüğünüz üzere, bu sefer `arrowFunctionMutationButObject` adındaki fonksiyona parametre olarak bir `object` verdik. Bu `object`in içerisinde `numbers` ve `mutate` adında iki adet `property` var. `numbers` adındaki `property` bir `number[]` alıyor ve `mutate` adındaki `property` bir `(v: number) => number` alıyor. Bu `object`i fonksiyonumuza parametre olarak verdiğimizde de `numbers` ve `mutate` adındaki `property`leri `map` fonksiyonuna parametre olarak veriyoruz. Bu fonksiyon da bize sonuç olarak bir sayı dizisi (**number[]**) döndürüyor.
 
-***
+---
 
 ## Returning Functions
 
 Bir fonksiyonun dönüş değeri olarak başka bir fonksiyon döndürebiliriz. Klasik bir JavaScript `closure` örneği olarak aşağıdaki fonksiyonu yazabiliriz:
 
 ```ts
-
 export function createAdder(num: number) {
   return (val: number) => num + val;
 }
@@ -479,7 +483,6 @@ export function createAdder(num: number) {
 const addOne = createAdder(1);
 console.log(addOne(55));
 // Output: 56
-
 ```
 
 İlk olarak `createAdder` adında bir fonksiyon oluşturduk ve bu fonksiyon parametre olarak bir `num (number)` alıyor. Ardından bize `return` değeri olarak bir `arrow function` döndürüyor. Bu `arrow function` da bir `val (number)` alıyor ve bu `val` değerini `num` ile toplayıp sonucu döndürüyor. Daha sonrasında `addOne` adında bir değişken oluşturduk ve bu değişken içerisinde `createAdder` fonksiyonunu `1` parametresi ile çağırdık. Bu fonksiyon bize bir `arrow function` döndürdüğü için `addOne` adındaki değişken aslında bir `arrow function` olmuş oldu. Daha sonrasında da `addOne` fonksiyonunu `55` parametresi ile çağırdık ve sonucu ekrana yazdırdık.
@@ -487,33 +490,30 @@ console.log(addOne(55));
 Ancak `createAdder` fonksiyonunun `return type`ını belirlemedik. Bu fonksiyonun nasıl bir `return type`ına sahip olduğunu görmek için VSCode'da bu fonksiyonun üzerine gelebiliriz ve `return type`ını görebiliriz (çünkü TypeScript bize bu fonksiyonun `type`ını infer edebiliyor): `function createAdder(num: number): (val: number) => number`. Öyleyse bunu kopyalayıp fonksiyonumuza yapıştıralım:
 
 ```ts
-
 export function createAdder(num: number): (val: number) => number {
   return (val: number) => num + val;
 }
-
 ```
 
 Bu şekilde fonksiyonumuzun `return type`ını da belirlemiş olduk.
 
-***
+---
 
 Eğer bu fonksiyonun okunuşu biraz zor geliyorsa, `type`ını bir değişkene atayabiliriz:
 
 ```ts
-
 type AdderFunction = (val: number) => number;
 
 export function createAdderButMoreReadable(num: number): AdderFunction {
   return (val: number) => num + val;
 }
-
 ```
 
 Bu şekilde daha okunabilir bir hale geldiğini söyleyebiliriz.
 
-***
-***
+---
+
+---
 
 ## Function Overloading'e Giriş
 
@@ -522,18 +522,15 @@ Bu şekilde daha okunabilir bir hale geldiğini söyleyebiliriz.
 `parseCoordinate.ts` adında bir dosya oluşturalım. Bu dosyada koordinatın **ne olduğunu** tesis etmek için öncelikle bir `interface` tanımlayalım.
 
 ```ts
-
 interface Coordinate {
   x: number;
   y: number;
 }
-
 ```
 
 Şimdi de `parseCoordinate` adında bir fonksiyon tanımlayalım. Bu fonksiyon `Coordinate` tipinde bir `obj` alsın ve yine `Coordinate` tipinde bir `obj` döndürsün.
 
 ```ts
-
 function parseCoordinateFromObject(obj: Coordinate): Coordinate {
   return {
     ...obj,
@@ -552,13 +549,11 @@ console.log(coordinate);
 Burada `spread operatörü` kullanmamızın asıl nedeni `obj`'nin referansını kopyalamak değil, `obj`'nin içindeki değerleri kopyalamaktır. Yani, `obj`'nin referansını kopyalasaydık, `obj`'nin içindeki değerler değiştiğinde `return` edilen değer de değişecekti. Fakat biz `obj`'nin içindeki değerleri kopyaladığımız için `obj`'nin içindeki değerler değişse bile `return` edilen değer değişmeyecektir. Sonuç olarak bu kopyalama işlemi, `parseCoordinate` fonksiyonunun çağrıldığı yerde, orijinal `obj` nesnesinin referansını koruyarak **yeni** bir nesne döndürmek için yapılır. Bu sayede, orijinal `obj` nesnesi değiştirilmeden kalır ve fonksiyonun döndürdüğü nesne üzerinde istenilen değişiklikler yapılabilir. Bunu daha basit bir örnek üzerinden şöyle de anlatabiliriz:
 
 ```ts
-
 const originalObject = { a: 1, b: 2 };
 const copiedObject = { ...originalObject };
 
 console.log(copiedObject); // { a: 1, b: 2 }
 console.log(originalObject === copiedObject); // false
-
 
 const originalObject = { a: 1, b: 2 };
 const copiedObject = { ...originalObject };
@@ -572,7 +567,6 @@ Yukarıdaki örnekte, `originalArray` adlı bir dizi oluşturulur. Sonrasında `
 Bununla ilgili başka bir örnek daha verelim:
 
 ```ts
-
 function cloneArray(arr: number[]): number[] {
   return [...arr];
 }
@@ -582,25 +576,23 @@ const clonedArray = cloneArray(originalArray);
 
 originalArray[0] = 10;
 
-console.log(originalArray);  // [10, 2, 3]
-console.log(clonedArray);    // [1, 2, 3]
-
+console.log(originalArray); // [10, 2, 3]
+console.log(clonedArray); // [1, 2, 3]
 ```
 
 Bu örnekte, `cloneArray` fonksiyonu, `arr` dizisinin değerlerini spread operatörü kullanarak yeni bir dizi oluşturur. Oluşturulan bu yeni dizi, orijinal dizinin bir kopyasıdır. Sonrasında, `originalArray` dizisinin ilk elemanı değiştirilir, ancak `clonedArray` dizisi değişmez. Bu, `spread operatörü`nün kullanıldığı durumlarda orijinal verinin değişmesini önlemek için yapılan bir kopyalama işlemidir.
 
 Bu nedenle, `spread operatörü (...)` kullanılarak bir nesnenin veya dizinin içindeki değerlerin kopyalanması, orijinal verinin değişmesini önlemek ve yeni bir veri üzerinde değişiklikler yapabilmek için yaygın bir kullanımdır.
 
-***
+---
 
-Benzer bir işlemi `object` üzerinden yapmak yerine `number` üzerinden yapalım. 
+Benzer bir işlemi `object` üzerinden yapmak yerine `number` üzerinden yapalım.
 
 ## Function Overloading
 
 Aynı isme sahip fakat farklı parametreler alan fonksiyonlar tanımlayabiliriz. Bu sayede aynı fonksiyonu farklı parametrelerle kullanabiliriz. Bu duruma `Function Overloading` denir.
 
 ```ts
-
 function parseCoordinate(obj: Coordinate): Coordinate;
 function parseCoordinate(x: number, y: number): Coordinate;
 function parseCoordinate(arg1: unknown, arg2?: unknown): Coordinate {
@@ -620,7 +612,6 @@ function parseCoordinate(arg1: unknown, arg2?: unknown): Coordinate {
   }
   return coord;
 }
-
 ```
 
 Biraz karışık göründüğünün farkındayım. Ancak bu fonksiyonda yaptığımız her adımı tek tek açıklayalım.
@@ -632,8 +623,15 @@ Biraz karışık göründüğünün farkındayım. Ancak bu fonksiyonda yaptığ
 `unknown` tipi, `any` tipine benzer. Ancak `any` tipinden farklı olarak `unknown` tipi, `type-checking` işleminden geçirilmeden kullanılamaz. Yani, `unknown` tipinde bir değişken tanımladığımızda, bu değişkeni kullanmadan önce `type-checking` işleminden geçirmemiz gerekir. Bu işlemi `typeof` operatörü ile yapabiliriz. Örneğin:
 
 ```ts
-
-let value: string | number | boolean | object | symbol | (() => void) | undefined | bigint;
+let value:
+  | string
+  | number
+  | boolean
+  | object
+  | symbol
+  | (() => void)
+  | undefined
+  | bigint;
 
 // Örnek 1: String
 value = "Merhaba dünya!";
@@ -682,7 +680,6 @@ value = BigInt(10);
 if (typeof value === "bigint") {
   console.log(value.toString()); // Çıktı: "10"
 }
-
 ```
 
 Sonuç olarak TypeScript'te, `unknown` türü, belirsiz olan veya henüz bilinmeyen türleri temsil etmek için kullanılan bir türdür. `unknown` türü, JavaScript'teki `any` türünden daha güvenli bir alternatif olarak sunulmuştur. `unknown` türü, hiçbir tipe otomatik olarak dönüştürülmez veya hiçbir işlem yapılamaz. Bu türü kullanarak, tür güvenliğini sağlamak için ek kontrol ve işlemler yapmanız gerekebilir.
@@ -694,7 +691,6 @@ Sonuç olarak TypeScript'te, `unknown` türü, belirsiz olan veya henüz bilinme
 TypeScript'te `type casting` iki şekilde yapılabilir: `as` operatörü veya `< >` (_köşeli parantez_) syntax'ı.
 
 ```ts
-
 let value: unknown;
 
 // Type casting with 'as' operator
@@ -702,19 +698,17 @@ let strLength1 = (value as string).length;
 
 // Type casting with '<>' syntax
 let strLength2 = (<string>value).length;
-
 ```
 
 Yukarıdaki örnekte, `value` değişkeni `unknown` tipindedir ve `.length` özelliğine sahip olmayan bir tiptir. Ancak, `type casting` kullanarak value değişkeninin bir `string` olduğunu belirtiyoruz. Böylece, `strLength1` ve `strLength2` değişkenleri, `value` değişkeninin _string uzunluğunu_ içerecektir.
 
 `Type casting` kullanırken dikkat etmeniz gereken nokta, doğru olmayan bir tip dönüştürmesi yapmaktan kaçınmaktır. Uygun bir tip dönüştipme yapmadan önce, value değişkeninin gerçek tipini doğrulamak veya kontrol etmek için uygun kontroller yapmanız önemlidir.
 
-***
+---
 
 Şimdi kaldığımız yerden devam edebiliriz. Elimizde en son aşağıdaki gibi bir `Function Overloading` örneği vardı:
 
 ```ts
-
 function parseCoordinate(obj: Coordinate): Coordinate;
 function parseCoordinate(x: number, y: number): Coordinate;
 function parseCoordinate(arg1: unknown, arg2?: unknown): Coordinate {
@@ -750,7 +744,6 @@ const coordinate3 = parseCoordinate("52", "35");
 const coordinate4 = parseCoordinate({ x: 52 });
 console.log(coordinate3, coordinate4);
 // Çıktı: {x: 0, y: 0} {x: 52}
-
 ```
 
 Yukarıdaki örnekte, `parseCoordinate` fonksiyonu iki farklı `function signature`a sahiptir. İlk imza (_signature_), `obj` parametresi olarak bir `Coordinate` nesnesi alırken, ikinci imza `number` tipinde olmak üzere `x` ve `y` parametrelerini alır.
@@ -763,12 +756,11 @@ Fonksiyonun gövdesindeki `typeof` ifadeleri, verilen argümanların tiplerini k
 
 Bu şekilde, `parseCoordinate` fonksiyonu, gelen argümanlara bağlı olarak farklı işlemler gerçekleştirir ve uygun tip kontrolleriyle güvenli bir şekilde çalışır.
 
-***
+---
 
 Peki aynı fonksiyona bir de `string` tipinde bir parametre eklemek isteseydik ne yapardık?
 
 ```ts
-
 /*******************************************************************************************/
 
 interface Coordinate {
@@ -807,7 +799,6 @@ function parseCoordinateWithString(arg1: unknown, arg2?: unknown): Coordinate {
 const coordinate5 = parseCoordinateWithString("x:12,y:21");
 console.log(coordinate5);
 // { x: 12, y: 21 }
-
 ```
 
 Bu TypeScript kodu, `Coordinate` adında bir arabirim (_interface_) tanımlıyor ve `parseCoordinateWithString` adında bir fonksiyon içeriyor.
@@ -817,9 +808,11 @@ Bu TypeScript kodu, `Coordinate` adında bir arabirim (_interface_) tanımlıyor
 Fonksiyon, üç farklı aşırı yüklemeye (_overload_) sahiptir. Her bir aşırı yüklemesi, farklı parametre kombinasyonlarına sahiptir:
 
 1. `parseCoordinateWithString(str: string): Coordinate;`
+
    - Bu aşırı yükleme, bir dize (_string_) parametresi alır ve bu dizeden bir `Coordinate` nesnesi döndürür.
 
 2. `parseCoordinateWithString(obj: Coordinate): Coordinate;`
+
    - Bu aşırı yükleme, bir `Coordinate` nesnesi parametresi alır ve bu nesneyi doğrudan döndürür.
 
 3. `parseCoordinateWithString(x: number, y: number): Coordinate;`
@@ -841,87 +834,75 @@ Fonksiyonun gerçek işlevi şu şekildedir:
 
 Kodun kullanım örneğinde, `parseCoordinateWithString` fonksiyonu `"x:12,y:21"` dizesiyle çağrılır ve dönen `Coordinate` nesnesi `coordinate5` değişkenine atanır. Bu nesne, `x` değeri **12** ve `y` değeri **21** olan bir koordinatı temsil eder. `console.log(coordinate5)` ifadesiyle bu nesne konsola yazdırılır. Sonuç olarak, `{ x: 12, y: 21 }` çıktısı elde edilir.
 
-***
+---
 
 ## Optional Parameters (İsteğe Bağlı Parametreler)
 
 Bir tarifteki malzemeleri yazdıran bir fonksiyon yazdığımızı düşünelim:
 
 ```ts
-
 function printIngredient(quantity: string, ingredient: string) {
   console.log(`${quantity} ${ingredient}`);
 }
 
-console.log(printIngredient('1C', 'Flour'));
+console.log(printIngredient("1C", "Flour"));
 // Output: 1C Flour
-
 ```
 
 Diyelim ki bu malzemelere başka bir şey daha eklemek istiyoruz. Ancak bu sefer hata alırız çünkü `printIngredient` fonksiyonu yalnızca iki parametre/argüman almaktadır: `quantity` ve `ingredient`.
 
 ```ts
-
 printIngredient("1C", "Flour", "something more");
 // ERROR: Expected 2 arguments, but got 3.
-
 ```
 
 Bu hatayı almamak için ilk olarak ne yapabiliriz? Elbette `printIgredient` fonksiyonuna başka bir parametre daha eklerdik:
 
 ```ts
-
 function printIngredient(quantity: string, ingredient: string, extra: string) {
   console.log(`${quantity} ${ingredient} ${extra}`);
 }
 
-console.log(printIngredient('1C', 'Flour', 'something more'));
+console.log(printIngredient("1C", "Flour", "something more"));
 // Output: 1C Flour something more
-
 ```
 
 Ancak bu sefer de `extra` parametresini kullanmak istemediğimiz durumlarda hata alırız:
 
 ```ts
-
-console.log(printIngredient('1C', 'Flour'));
+console.log(printIngredient("1C", "Flour"));
 // ERROR: Expected 3 arguments, but got 2.
-
 ```
 
 İşte tam da bu sorunu çözmek için **isteğe bağlı parametreler** kullanırız. İsteğe bağlı parametreler (_optional parameters_), parametrelerin sonuna soru işareti (`?`) ekleyerek oluşturulur:
 
 ```ts
-
 function printIngredient(quantity: string, ingredient: string, extra?: string) {
-  console.log(`${quantity} ${ingredient} ${extra ? extra : ''}`);
+  console.log(`${quantity} ${ingredient} ${extra ? extra : ""}`);
 }
 
-console.log(printIngredient('1C', 'Flour'));
+console.log(printIngredient("1C", "Flour"));
 // Output: 1C Flour
 
-console.log(printIngredient('1C', 'Flour', 'something more'));
+console.log(printIngredient("1C", "Flour", "something more"));
 // Output: 1C Flour something more
-
 ```
 
 İşte bu sayede `extra` parametresini kullanmak istemediğimiz durumlarda hata almazken, kullanmak istediğimiz durumlarda da herhangi bir sorun yaşamaksızın bu parametreyi kullanabiliriz.
 
-***
+---
 
 ## Optional Fields (İsteğe Bağlı Alanlar)
 
 İsteğe bağlı parametrelerin yanı sıra, isteğe bağlı alanlar (_optional fields_) da tanımlayabiliriz. İsteğe bağlı alanlar, bir nesnenin içindeki alanlardır. Örneğin, bir `User` nesnesi tanımlayalım:
 
 ```ts
-
 interface User {
   id: string;
   info?: {
     email?: string;
-  }
+  };
 }
-
 ```
 
 Bu `User` nesnesinin içinde `info` adında bir alan bulunmaktadır. Bu alanın içinde de `email` adında bir alan bulunmaktadır. Ancak bu alanların ikisi de isteğe bağlıdır. Yani `User` nesnesinin içinde `info` alanı bulunmayabilir. Ya da `info` alanı bulunsa bile, `email` alanı bulunmayabilir. Yani, bu iki alan da `undefined` olabilir.
@@ -929,15 +910,13 @@ Bu `User` nesnesinin içinde `info` adında bir alan bulunmaktadır. Bu alanın 
 Bir e-mail bulma fonksiyonu yazalım:
 
 ```ts
-
 function getEmail(user: User): string {
   if (user.info) {
     return user.info.email;
   }
 
-  return '';
+  return "";
 }
-
 ```
 
 Ancak bu fonksiyonu daha çalıştırmadan bile bir hata alırız:
@@ -951,74 +930,64 @@ Type 'string | undefined' is not assignable to type 'string'.
 Bu hatanın sebebi, `user.info.email` ifadesinin `string | undefined` tipinde bir değer döndürmesidir. Yani bu ifade, ya bir `string` değer döndürür, ya da `undefined` döndürür. Ancak bizim fonksiyonumuz `string` tipinde bir değer döndürmektedir. Bu yüzden de `user.info.email` ifadesinin `string` tipinde bir değer döndüreceğini TypeScript'ten daha iyi bilerek, `string` tipinde bir değer döndüreceğinden emin olduğumuzu belirtmeliyiz. Bunun için `!` operatörünü kullanırız. Bu operatör, bir değerin `undefined` olmadığını belirtir:
 
 ```ts
-
 function getEmail(user: User): string {
   if (user.info) {
     return user.info.email!;
   }
 
-  return '';
+  return "";
 }
-
 ```
 
 Ancak bu yöntem pek de sağlıklı bir yöntem değildir. Bu hatadan kurtulmanın çok daha kolay bir yolu vardır:
 
 ```ts
-
 function getEmail(user: User): string {
-  return user?.info?.email ?? 'email is undefined';
+  return user?.info?.email ?? "email is undefined";
 }
-
 ```
 
 Burada `coalescing` operatörü olan `??` operatörünü kullanıyoruz. Bu operatör, bir değerin `undefined` olup olmadığını kontrol eder. Eğer `undefined` ise, **sağ** tarafındaki değeri döndürür. Eğer `undefined` değilse, **sol** tarafındaki değeri döndürür. Yani, `user?.info?.email` ifadesi `undefined` ise, `email is undefined` değerini döndürür. Eğer `undefined` değilse, `user.info.email` ifadesinin döndürdüğü değeri döndürür.
 
-***
+---
 
 ## Optional Callbacks (İsteğe Bağlı Callback Fonksiyonlar)
 
 İsteğe bağlı parametreler ve isteğe bağlı alanlar gibi, isteğe bağlı callback fonksiyonları (_optional callback functions_) da tanımlayabiliriz. Örneğin, bir `addWithCallback` fonksiyonu tanımlayalım:
 
 ```ts
-
 function addWithCallback(x: number, y: number, callback?: () => void) {
   console.log(x + y);
   callback?.();
 }
-
 ```
 
 Bu fonksiyon, `x` ve `y` parametrelerini toplar ve sonucu konsola yazdırır. Eğer `callback` parametresi de verilmişse, o zaman bu fonksiyonu da en son çağırır (_invoke_).
 
-***
-***
+---
+
+---
 
 ## Tuples (Demetler)
 
 `Tuple`ın ne olduğunu anlatabilmek için basit bir örnek verelim. Bir 3 boyutlu koordinat `type`ı yazalım.
 
 ```ts
-
 type ThreeDCoordinate = [x: number, y: number, z: number];
-
 ```
 
 `Tuple`, görüldüğü üzere esasen bir `array`dir. Bir de bu `ThreeDCoordinate` adını verdiğimiz `type`ı kullanacağımız bir fonksiyon yazalım:
 
 ```ts
-
-function add3DCoordinate(c1: ThreeDCoordinate, c2: ThreeDCoordinate): ThreeDCoordinate {
-  return [
-    c1[0] + c2[0],
-    c1[1] + c2[1],
-    c1[2] + c2[2]
-  ];
+function add3DCoordinate(
+  c1: ThreeDCoordinate,
+  c2: ThreeDCoordinate,
+): ThreeDCoordinate {
+  return [c1[0] + c2[0], c1[1] + c2[1], c1[2] + c2[2]];
 }
 
 console.log(add3DCoordinate([0, 100, 0], [10, 20, 30]));
 // Output: [10, 120, 30]
-
 ```
 
 İlk olarak, `add3DCoordinate` adında bir fonksiyon tanımlanıyor. Bu fonksiyon iki parametre alıyor: `c1` ve `c2`. Hem `c1` hem de `c2` parametreleri `ThreeDCoordinate` tipinde olmalıdır.
@@ -1027,21 +996,22 @@ Fonksiyonun body'si bir `array`, yani dizi döndürür. Dizinin ilk elemanı `c1
 
 Son olarak, `add3DCoordinate` fonksiyonu `[0, 100, 0]` ve `[10, 20, 30]` dizileri ile çağrılır. Bu dizi, her biri 3 boyutlu bir noktanın `x`, `y` ve `z` koordinatlarını temsil eder. Fonksiyon, bu iki noktanın koordinatlarını toplar ve sonucu `console.log` ile konsola yazdırır.
 
-***
+---
 
 ## Tuples with Different Types (Farklı Tiplere Sahip Demetler)
 
 Aslında React ile uygulama geliştirirken çok sık kullandığımız bir `tuple` vardır: `useState`. `useState` aslında bir `state` ve `state setter`ı bize `return` eder. `useState` ile benzer bir işlevi yerine kendi `string` tipindeki state'imizi ve `state setter`ımızı döndüren bir `tuple` yazalım:
 
 ```ts
-
-function simpleStringState(initial: string): [() => string, (v: string) => void] {
+function simpleStringState(
+  initial: string,
+): [() => string, (v: string) => void] {
   let str: string = initial;
   return [
     () => str,
     (v: string) => {
       str = v;
-    }
+    },
   ];
 }
 
@@ -1052,7 +1022,6 @@ console.log(str1getter());
 str1setter("goodbye");
 console.log(str1getter());
 // Output: goodbye
-
 ```
 
 Aslında React ile birlikte çok sık kullandığımız `useState`'in birebir aynısını yazmış olduk. Bu kodu daha yakından inceleyelim ve ne işe yaradığını detaylı bir şekilde görelim.
@@ -1066,7 +1035,6 @@ Son olarak, `simpleStringState` fonksiyonu `"hello"` ile çağrılır. Bu fonksi
 Not: `const [str1getter, str1setter] = simpleStringState("hello");` kısmında `array destructing` işlemi yaptığımıza dikkat edelim. Bu işlem, `simpleStringState` fonksiyonunun döndürdüğü `tuple`'ın ilk elemanını `str1getter`'a, ikinci elemanını ise `str1setter`'a atar, tıpkı aşağıdaki gibi:
 
 ```ts
-
 const tuple = simpleStringState("hello");
 const str1getter = tuple[0];
 const str1setter = tuple[1];
@@ -1079,8 +1047,8 @@ const str1setter = simpleStringState("hello")[1];
 // en kısa haliyle
 
 const [str1getter, str1setter] = simpleStringState("hello");
-
 ```
 
-***
-***
+---
+
+---

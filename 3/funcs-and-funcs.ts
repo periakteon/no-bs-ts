@@ -14,7 +14,7 @@ printToFile("Hello, world", () => console.log("Callback"));
 
 export function arrayMutate(
   numbers: number[],
-  mutate: (v: number) => number
+  mutate: (v: number) => number,
 ): number[] {
   return numbers.map(mutate);
 }
@@ -24,14 +24,13 @@ export function arrayMutate(
 console.log(arrayMutate([1, 2, 3], (v) => v * 10));
 // Output: [10, 20, 30]
 
-
 /*******************************************************************************************/
 
 type MutationFunction = (v: number) => number;
 
 export function arrayMutateButMoreReadable(
   numbers: number[],
-  mutate: MutationFunction
+  mutate: MutationFunction,
 ): number[] {
   return numbers.map(mutate);
 }
@@ -42,20 +41,29 @@ console.log(myNewMutation(3));
 
 /*******************************************************************************************/
 
-const mutationArrowFunction = (n: number[], mutate: (v: number) => number): number[] => {
+const mutationArrowFunction = (
+  n: number[],
+  mutate: (v: number) => number,
+): number[] => {
   return n.map(mutate);
-}
+};
 
 console.log(mutationArrowFunction([1, 2, 3], (v) => v * 10));
 // Output: [10, 20, 30]
 
 /*******************************************************************************************/
 
-type ArrowFunctionMutation = (numbers: number[], mutate: (v: number) => number) => number[];
+type ArrowFunctionMutation = (
+  numbers: number[],
+  mutate: (v: number) => number,
+) => number[];
 
-const mutationArrowFunctionButMoreReadable: ArrowFunctionMutation = (n, mutate) => {
+const mutationArrowFunctionButMoreReadable: ArrowFunctionMutation = (
+  n,
+  mutate,
+) => {
   return n.map(mutate);
-}
+};
 
 console.log(mutationArrowFunctionButMoreReadable([1, 2, 3], (v) => v * 10));
 // Output: [10, 20, 30]
@@ -67,10 +75,14 @@ type ArrowFunctionMutationButAsObject = {
   mutate: (v: number) => number;
 };
 
-export const arrowFunctionMutationButObject = (data: ArrowFunctionMutationButAsObject): number[] => {
+export const arrowFunctionMutationButObject = (
+  data: ArrowFunctionMutationButAsObject,
+): number[] => {
   return data.numbers.map(data.mutate);
-}
-console.log(arrowFunctionMutationButObject({ numbers: [1, 2, 3], mutate: (v) => v * 10 }));
+};
+console.log(
+  arrowFunctionMutationButObject({ numbers: [1, 2, 3], mutate: (v) => v * 10 }),
+);
 // Output: [10, 20, 30]
 
 /*******************************************************************************************/
