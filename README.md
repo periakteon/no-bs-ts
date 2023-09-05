@@ -1562,6 +1562,6 @@ Aynı şekilde `checkout` key'ine tıkladığımızda ise `time` ve `user` dış
 
 Bu şekilde `generic`'lerin `keyof` ile birlikte kullanımını öğrenmiş ve type safety'yi arttırmış olduk.
 
-
 ---
+
 ---
